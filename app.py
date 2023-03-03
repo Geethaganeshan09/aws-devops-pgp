@@ -18,29 +18,30 @@ db_conn = connections.Connection(
 
 @app.route("/", methods=['GET', 'POST'])
 def hello_world():
+    print('inside function')
     if request.method == 'POST':
-        s3 = boto3.resource('s3')
+        print('inside if')
+        session = boto3.Session(region_name='us-east-1', aws_access_key_id='AKIASBGQBM76RSBPWIHE', aws_secret_access_key='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')
+        s3 = session.resource('s3')
         file_body = request.files['file_name']
         count_obj = 0
         for i in s3.Bucket(custombucket).objects.all():
             count_obj = count_obj + 1
         file_name = "file-id-" + str(count_obj + 1)
-
+        print('before try')
         try:
             s3.Bucket(custombucket).put_object(Key=file_name, Body=file_body)
-            bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
-            s3_location = (bucket_location['LocationConstraint'])
-
+            s3_location = 'us-east-1'
             if s3_location is None:
                 s3_location = ''
             else:
                 s3_location = '-' + s3_location
-
+            print('s3locatopm',s3_location)
             object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(
                 s3_location,
                 custombucket,
                 file_name)
-
+            print("objurl",object_url)
             try:
                 cursor = db_conn.cursor()
                 insert_sql = "INSERT INTO intellipaat VALUES (%s, %s)"
