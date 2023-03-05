@@ -21,6 +21,7 @@ def hello_world():
     print('inside function')
     if request.method == 'POST':
         print('inside if')
+        print('inside if repeats')
         session = boto3.Session(region_name='us-east-1', aws_access_key_id='AKIASBGQBM76RSBPWIHE', aws_secret_access_key='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')
         s3 = session.resource('s3')
         file_body = request.files['file_name']
