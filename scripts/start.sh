@@ -1,4 +1,4 @@
-cd /home/ubuntu/pgp-june
+cd /home/ubuntu/aws-devops-pgp
 sudo pip3 install pymysql flask boto3
 sudo touch log.txt
 sudo chmod 777 log.txt
