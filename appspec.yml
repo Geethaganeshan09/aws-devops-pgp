@@ -1,0 +1,15 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ubuntu/pgp-june
+hooks:
+  BeforeInstall:
+    - location: scripts/boot.sh
+      timeout: 300
+      runas: root
+
+  BeforeAllowTraffic:
+    - location: scripts/start.sh
+      timeout: 300
+      runas: root
